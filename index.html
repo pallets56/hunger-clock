@@ -25,7 +25,7 @@
     font-family: "Karla", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     line-height: 1.4;
     -webkit-font-smoothing: antialiased;
-    height: 100%;
+    min-height: 100%;
   }
 
   /* --- Premium Minimalist Split-Flap Counter Case --- */
@@ -40,6 +40,7 @@
     box-shadow: 
       0 10px 30px rgba(0, 0, 0, 0.06),
       inset 0 1px 2px rgba(255, 255, 255, 0.8);
+    min-height: 1.36em; 
   }
   
   .odometer .d {
@@ -140,10 +141,10 @@
     top: 0; left: 0; right: 0;
     background: #ffffff;
     border-bottom: 1px solid #000;
-    padding: 8px 18px; 
+    padding: 10px 16px; 
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     transform: translateY(-110%);
     transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 100;
@@ -151,7 +152,8 @@
   .sticky-bar.show { transform: translateY(0); }
   
   .sticky-bar .odometer {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+    min-height: auto;
   }
   
   .sticky-bar .d::before {
@@ -161,11 +163,18 @@
   }
   
   .sticky-text { 
-    font-size: 0.8rem; 
+    font-size: 0.76rem; 
     font-weight: 600; 
-    line-height: 1; 
-    opacity: 0.8; 
-    white-space: nowrap; 
+    line-height: 1.15; 
+    opacity: 0.85; 
+    white-space: normal;
+    max-width: 22ch; 
+  }
+
+  @media (max-width: 440px) {
+    .sticky-bar { padding: 8px 12px; gap: 10px; }
+    .sticky-bar .odometer { font-size: 0.95rem; }
+    .sticky-text { font-size: 0.7rem; max-width: 18ch; }
   }
 
   /* --- Structural Full-Page Snapping Blocks --- */
@@ -226,38 +235,44 @@
   .slider-inner-wrapper, 
   .session-block, 
   .systemic-manifesto, 
-  .share-container {
+  .share-lead,
+  .share-container,
+  .footer-anchor {
     opacity: 0;
     transform: translateY(32px);
     transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   .line p {
-    max-width: 18ch;
+    max-width: 22ch; 
     font-size: clamp(1.7rem, 8vw, 2.4rem);
     font-weight: 700;
     line-height: 1.22;
     text-align: center;
     text-wrap: balance;
   }
-  .line p.small { font-size: clamp(1.2rem, 5.4vw, 1.55rem); font-weight: 400; }
 
   .page-section.visible p, 
   .page-section.visible .slider-inner-wrapper, 
   .page-section.visible .session-block, 
   .page-section.visible .systemic-manifesto, 
-  .page-section.visible .share-container {
+  .page-section.visible .share-lead,
+  .page-section.visible .share-container,
+  .page-section.visible .footer-anchor {
     opacity: 1;
     transform: translateY(0);
   }
-  .page-section.visible p.small { opacity: 0.75; }
 
   /* --- Interactive Slider Framework --- */
   .slider-section {
     background: #f9f9f9;
     border-top: 1px solid #eaeaea;
     border-bottom: 1px solid #eaeaea;
-    padding: 40px 24px;
+    padding: 60px 24px 100px; /* Enhanced vertical padding for safety zone */
+    height: auto !important; /* Defends against strict viewport squishing */
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: visible !important;
   }
   .slider-container {
     width: 100%;
@@ -268,15 +283,36 @@
     font-size: clamp(1.4rem, 5vw, 2.1rem);
     font-weight: 700;
     letter-spacing: -0.02em;
-    margin-bottom: 30px;
+    margin-bottom: 8px;
     text-wrap: balance;
   }
-  .slider-input-wrapper {
+  .slider-instruction {
+    font-size: 0.95rem;
+    font-weight: 500;
+    opacity: 0.5;
     margin-bottom: 35px;
-    position: relative;
+  }
+  .slider-input-wrapper {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .slider-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 14px;
+  }
+  .slider-bound {
+    font-size: 0.85rem;
+    font-weight: 800;
+    opacity: 0.35;
+    font-family: Arial, Helvetica, sans-serif;
   }
   .tax-slider {
-    width: 100%;
+    flex: 1;
     -webkit-appearance: none;
     appearance: none;
     height: 6px;
@@ -297,13 +333,20 @@
   .tax-slider::-webkit-slider-thumb:hover {
     transform: scale(1.15);
   }
-  .slider-value {
-    font-size: 3.5rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    margin-top: 10px;
+  
+  .slider-statement {
+    font-size: clamp(1.15rem, 4.5vw, 1.55rem);
+    font-weight: 700;
+    color: #141414;
+    margin-top: 22px;
     display: block;
+    text-wrap: balance;
   }
+  .slider-statement span {
+    color: #4f46e5;
+    font-weight: 800;
+  }
+  
   .metrics-grid {
     display: flex;
     flex-direction: column;
@@ -331,12 +374,32 @@
     opacity: 0.6;
   }
 
-  /* --- Closing Section (Snapping Overridden to Auto Fluid Flow) --- */
+  /* --- Slider Scroll Cue Styles --- */
+  .slider-cue {
+    opacity: 0;
+    bottom: 24px;
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    pointer-events: none;
+  }
+
+  /* Fade in the cue only when the slider section becomes visible */
+  .page-section.visible .slider-cue {
+    opacity: 0.65;
+  }
+
+  /* Responsive safety valve: completely clean block rendering for exceptionally small screens */
+  @media (max-height: 740px) {
+    .slider-section {
+      padding-bottom: 120px;
+    }
+  }
+
+  /* --- Closing Section (Snapping Overridden to Fluid Flow) --- */
   .closing {
     height: auto;
     min-height: 100vh;
     min-height: 100dvh;
-    scroll-snap-align: none; /* Stripped snap alignment to prevent page lock traps */
+    scroll-snap-align: none; 
     scroll-snap-stop: normal;
     padding: 120px 24px 80px;
     justify-content: center;
@@ -353,7 +416,7 @@
   .session-label {
     font-size: clamp(1.15rem, 4.2vw, 1.45rem);
     font-weight: 700;
-    max-width: 26ch;
+    max-width: 28ch;
     line-height: 1.3;
     text-align: center;
   }
@@ -362,31 +425,35 @@
   }
 
   .systemic-manifesto {
-    max-width: 30rem;
+    max-width: 32rem;
     margin: 0 auto;
     font-size: clamp(1.1rem, 4vw, 1.35rem);
     font-weight: 600;
-    line-height: 1.55;
+    line-height: 1.6;
     text-align: center;
     text-wrap: balance;
     transition-delay: 0.15s;
   }
-  .systemic-manifesto span {
-    display: block;
-    margin-top: 1.25rem;
+
+  .share-lead {
+    font-size: clamp(1.05rem, 3.8vw, 1.2rem);
     font-weight: 700;
+    margin-top: 50px;
+    color: #141414;
+    text-align: center;
+    transition-delay: 0.25s;
   }
 
-  /* --- Enhanced Colored Share Interface --- */
+  /* --- Share Interface Layout --- */
   .share-container {
-    margin-top: 35px;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 100%;
     max-width: 24rem;
     justify-content: center;
-    transition-delay: 0.3s;
+    transition-delay: 0.35s;
   }
   
   .share-btn {
@@ -412,17 +479,36 @@
   .btn-copy { background: #4f46e5; }
   .btn-whatsapp { background: #25d366; }
   .btn-bluesky { background: #0085ff; }
+  .btn-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
 
   .share-btn:hover { filter: brightness(1.08); }
   .share-btn:active { transform: scale(0.98); }
 
+  /* --- Premium Brand Footer Layout --- */
+  .footer-anchor {
+    margin-top: 80px;
+    width: 100%;
+    max-width: 32rem;
+    border-top: 1px solid #eaeaea;
+    padding-top: 40px;
+    text-align: center;
+    transition-delay: 0.45s;
+  }
+
+  .project-credit {
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #141414;
+    margin-bottom: 24px;
+    display: block;
+  }
+
   .source {
-    max-width: 34rem;
-    margin: 80px auto 0;
     font-size: 0.75rem;
     line-height: 1.5;
     opacity: 0.45;
-    text-align: center;
   }
 </style>
 </head>
@@ -430,7 +516,7 @@
 
   <div class="sticky-bar" id="stickyBar">
     <div id="stickyNum">0</div> 
-    <span class="sticky-text">deaths from hunger since Elon Musk became a trillionaire</span>
+    <span class="sticky-text">deaths from hunger since Musk became a trillionaire</span>
   </div>
 
   <section class="page-section hero">
@@ -445,7 +531,7 @@
 
   <section class="page-section line"><p>In 2021, Elon Musk told the UN&rsquo;s World Food Programme that if they gave him a plan to solve world hunger for $6&nbsp;billion, he&rsquo;d pay.</p></section>
   <section class="page-section line"><p>So they gave him a plan.</p></section>
-  <section class="page-section line"><p class="small">Fully costed. $0.43 a meal, 42&nbsp;million people, 43&nbsp;countries.</p></section>
+  <section class="page-section line"><p>Fully costed. $0.43 a meal, 42 million people, 43 countries.</p></section>
   <section class="page-section line"><p>He never paid.</p></section>
   <section class="page-section line"><p>Since then he&rsquo;s made over $700&nbsp;billion and become the world&rsquo;s first trillionaire.</p></section>
   <section class="page-section line"><p>He could fund that plan 166 times over.</p></section>
@@ -453,11 +539,18 @@
 
   <section class="page-section slider-section">
     <div class="slider-container slider-inner-wrapper">
-      <h2 class="slider-title">What would happen if the world&rsquo;s richest 100 people paid a wealth tax?</h2>
+      <h2 class="slider-title">What if the world&rsquo;s richest 100 people paid a tax on their wealth?</h2>
+      <p class="slider-instruction">Drag the slider to change the percentage and see what that money could fund:</p>
+      
       <div class="slider-input-wrapper">
-        <input type="range" min="0" max="5" step="0.5" value="2" class="tax-slider" id="taxSlider">
-        <span class="slider-value" id="sliderValDisplay">2%</span>
+        <div class="slider-row">
+          <span class="slider-bound">0%</span>
+          <input type="range" min="0" max="5" step="0.5" value="2" class="tax-slider" id="taxSlider">
+          <span class="slider-bound">5%</span>
+        </div>
+        <div class="slider-statement">A <span id="sliderValDisplay">2%</span> annual tax on their wealth would provide:</div>
       </div>
+      
       <div class="metrics-grid">
         <div class="metric-card">
           <div class="metric-output" id="mealsOutput">0</div>
@@ -473,28 +566,40 @@
         </div>
       </div>
     </div>
+
+    <!-- Keep Scrolling hint added to guide users to the closing dashboard -->
+    <div class="scroll-cue slider-cue">
+      <span>Keep Scrolling</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
   </section>
 
   <section class="page-section closing">
     <div class="session-block">
-      <div class="session-label">While you have been reading this page, this many additional people died from hunger:</div>
+      <div class="session-label">While you have been reading this page, this many people have died from hunger:</div>
       <div id="sessionCount">0</div>
     </div>
 
     <div class="systemic-manifesto">
-      Eight men now own as much wealth as the bottom 50% of humanity. Last year, the collective wealth of billionaires surged by $2.5 trillion: enough to eradicate extreme poverty 26 times over.
-      <span>We simply cannot afford billionaires (let alone trillionaires).</span>
+      Eight men now own as much wealth as the bottom 50% of humanity. Last year, the collective wealth of billionaires surged by $2.5 trillion: enough to eradicate extreme poverty 26 times over (Oxfam, figures published Jan this year). <br><br> We simply cannot afford billionaires (let alone trillionaires).
     </div>
+
+    <h3 class="share-lead">Share to show how wealth taxes could save lives</h3>
 
     <div class="share-container">
       <button class="share-btn btn-copy" id="copyBtn" onclick="copyLink()">copy link and share</button>
       <button class="share-btn btn-whatsapp" onclick="sharePlatform('whatsapp')">share on whatsapp</button>
       <button class="share-btn btn-bluesky" onclick="sharePlatform('bluesky')">share on bluesky</button>
+      <button class="share-btn btn-instagram" id="instagramBtn" onclick="sharePlatform('instagram')">share on instagram</button>
     </div>
 
-    <footer class="source">
-      Counter based on a conservative estimate of one death from acute hunger every four seconds, calculated by more than 200 NGOs (2022). Net worth figures: Bloomberg / WFP. Start: 09:30:01 ET, 12 June 2026, the opening of SpaceX trading on the Nasdaq. Tax model calculations are based on an estimated collective assets evaluation of $4.8T held by the top 100 global billionaires.
-    </footer>
+    <!-- Clear, highly visible project footprint integrated explicitly right into the sub-footer context -->
+    <div class="footer-anchor">
+      <span class="project-credit">A project from Everyone Hates Elon</span>
+      <footer class="source">
+        Counter based on a conservative estimate of one death from acute hunger every four seconds, calculated by more than 200 NGOs (2022). Net worth figures: Bloomberg / WFP. Start: 09:30:01 ET, 12 June 2026, the opening of SpaceX trading on the Nasdaq. Tax model calculations are based on an estimated collective assets evaluation of $4.8T held by the top 100 global billionaires.
+      </footer>
+    </div>
   </section>
 
   <script>
@@ -610,7 +715,9 @@
 
     function updateSliderMetrics() {
       var rate = parseFloat(slider.value);
-      sliderDisplay.textContent = rate === 0 ? "0%" : rate + "%";
+      var displayString = rate === 0 ? "0%" : rate + "%";
+      
+      sliderDisplay.textContent = displayString;
       
       var revenue = BASE_WEALTH * (rate / 100);
       
@@ -628,13 +735,24 @@
     /* --- Platform Share Dispatch Engine --- */
     function sharePlatform(platform) {
       var url = encodeURIComponent(window.location.href);
-      var text = encodeURIComponent("Eight men own as much wealth as the bottom 50% of humanity. Extreme wealth is a systemic crisis. Track the impact in real time:");
+      var text = encodeURIComponent("Horrific. This is how many people have died of hunger since Elon Musk became a trillionaire");
       var shareUrl = '';
       
       if (platform === 'whatsapp') {
         shareUrl = 'https://api.whatsapp.com/send?text=' + text + '%20' + url;
       } else if (platform === 'bluesky') {
         shareUrl = 'https://bsky.app/intent/compose?text=' + text + '%20' + url;
+      } else if (platform === 'instagram') {
+        var instBtn = document.getElementById('instagramBtn');
+        var rawText = "Horrific. This is how many people have died of hunger since Elon Musk became a trillionaire";
+        navigator.clipboard.writeText(rawText + " " + window.location.href).then(function() {
+          var oldText = instBtn.textContent;
+          instBtn.textContent = "copied! paste to story/bio";
+          setTimeout(function() {
+            instBtn.textContent = oldText;
+          }, 3000);
+        });
+        return;
       }
       
       if (shareUrl) {
@@ -665,29 +783,21 @@
 
     var revealObserver = new IntersectionObserver(function(entries){
       entries.forEach(function(e){ 
-        if (e.isIntersecting) e.target.classList.add('visible'); 
-      });
-    }, { threshold: 0.5 });
-    
-    document.querySelectorAll('.page-section').forEach(function(el){ revealObserver.observe(el); });
-
-    /* --- Dynamic Snapping Lock Release Monitor --- */
-    var closingSection = document.querySelector('.closing');
-    var snapReleaseObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        // Disables browser snapping immediately when the closing panel breaches visibility barriers
-        if (entry.isIntersecting) {
-          document.documentElement.style.scrollSnapType = 'none';
+        if (e.isIntersecting) {
+          e.target.classList.add('visible'); 
+          
+          if (e.target.classList.contains('slider-section')) {
+            document.documentElement.style.scrollSnapType = 'none';
+          }
         } else {
-          // Re-engages snapping blocks only when scrolling back above the footer threshold
-          if (window.scrollY < closingSection.offsetTop) {
+          if (e.target.classList.contains('slider-section') && window.scrollY < e.target.offsetTop) {
             document.documentElement.style.scrollSnapType = 'y mandatory';
           }
         }
       });
-    }, { threshold: 0.05 }); // Triggers near the immediate entry point boundary
+    }, { threshold: 0.5 });
     
-    snapReleaseObserver.observe(closingSection);
+    document.querySelectorAll('.page-section').forEach(function(el){ revealObserver.observe(el); });
   </script>
 
 </body>
