@@ -240,7 +240,7 @@
   .share-container,
   .footer-anchor {
     opacity: 0;
-    transform: translateY(16px); /* Compressed path for faster, punchier transitions */
+    transform: translateY(16px); 
     transition: opacity 0.45s cubic-bezier(0.215, 0.610, 0.355, 1), transform 0.45s cubic-bezier(0.215, 0.610, 0.355, 1);
   }
 
@@ -438,7 +438,7 @@
     line-height: 1.6;
     text-align: center;
     text-wrap: balance;
-    transition-delay: 0.05s; /* Snappier cascade timings */
+    transition-delay: 0.05s; 
   }
 
   .share-lead {
@@ -535,7 +535,6 @@
     </div>
   </section>
 
-  <!-- Content layers updated with editorial highlights targeting critical terms -->
   <section class="page-section line"><p>In 2021, Elon Musk told the UN&rsquo;s World Food Programme that if they gave him a plan to solve world hunger for <span class="txt-highlight">$6&nbsp;billion</span>, he&rsquo;d pay.</p></section>
   <section class="page-section line"><p>So they gave him a plan.</p></section>
   <section class="page-section line"><p>Fully costed. <span class="txt-highlight">$0.43 a meal</span>, 42 million people, 43 countries.</p></section>
@@ -561,15 +560,15 @@
       <div class="metrics-grid">
         <div class="metric-card">
           <div class="metric-output" id="mealsOutput">0</div>
-          <div class="metric-label">annual school meals for kids in need</div>
+          <div class="metric-label">school meals for kids in need</div>
         </div>
         <div class="metric-card">
           <div class="metric-output" id="aidOutput">0</div>
-          <div class="metric-label">people given full annual food aid</div>
+          <div class="metric-label">people with full annual food aid</div>
         </div>
         <div class="metric-card">
           <div class="metric-output" id="healthOutput">0</div>
-          <div class="metric-label">people given lifesaving healthcare</div>
+          <div class="metric-label">people with lifesaving healthcare</div>
         </div>
       </div>
     </div>
@@ -800,7 +799,7 @@
           }
         }
       });
-    }, { threshold: 0.12 }); /* Lowered threshold drastically ensures fluid sections trigger animations instantly on entry */
+    }, { threshold: 0.12 }); 
     
     document.querySelectorAll('.page-section').forEach(function(el){ revealObserver.observe(el); });
   </script>
