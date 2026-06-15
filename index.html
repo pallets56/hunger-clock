@@ -9,7 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  
+  /* --- Immersive Scroll Snapping Configuration --- */
+  html { 
+    -webkit-text-size-adjust: 100%; 
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory; 
+    overflow-y: scroll;
+    height: 100%;
+  }
 
   body {
     background: #ffffff;
@@ -17,76 +25,165 @@
     font-family: "Karla", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     line-height: 1.4;
     -webkit-font-smoothing: antialiased;
+    height: 100%;
   }
 
-  /* --- Odometer --- */
+  /* --- Premium Minimalist Split-Flap Counter Case --- */
   .odometer {
     display: inline-flex;
-    align-items: stretch;
-    font-variant-numeric: tabular-nums;
-    font-feature-settings: "tnum";
+    align-items: center;
+    background: #eaeaea; 
+    padding: 0.14em 0.16em;
+    border: 1px solid #d2d2d2;
+    border-radius: 0.12em;
+    gap: 0.05em; 
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.06),
+      inset 0 1px 2px rgba(255, 255, 255, 0.8);
   }
+  
   .odometer .d {
     position: relative;
-    display: inline-block;
-    width: 1ch;
-    height: 1em;
-    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 0.72em;
+    height: 1.08em;
+    border-radius: 0.05em;
+    perspective: 400px; 
     overflow: hidden;
   }
-  .odometer .d-inner {
+
+  /* Precision Central Mechanical Hinge Seam Line */
+  .odometer .d::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    background: #050505;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    z-index: 10;
+    transform: translateY(-50%);
+  }
+
+  /* Split-Flap Ambient Specular Shadow Profiles */
+  .odometer .d::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, 
+      rgba(255, 255, 255, 0.02) 0%, 
+      rgba(255, 255, 255, 0.0) 48%,
+      rgba(0, 0, 0, 0.42) 49.5%, 
+      rgba(0, 0, 0, 0.68) 51%, 
+      rgba(0, 0, 0, 0.0) 55%,
+      rgba(0, 0, 0, 0.05) 100%
+    );
+    z-index: 9;
+    pointer-events: none;
+  }
+
+  /* --- Individual Split Flap Cards --- */
+  .flap-half {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    transform: translateY(0);
-    transition: transform 0.5s cubic-bezier(0.45, 0, 0.12, 1), opacity 0.5s ease;
-    will-change: transform;
-  }
-  .odometer .d-inner.incoming { transform: translateY(100%); }
-  .odometer .sep {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 1em;
-    line-height: 1;
+    background: #141414; 
+    border: 1px solid #0a0a0a;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif; 
+    font-weight: 700;
+    font-size: 0.92em;
+    letter-spacing: -0.01em;
+    backface-visibility: hidden; 
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .odometer .d-inner { transition: none; }
+  .flap-half.top {
+    clip-path: inset(0 0 50% 0);
   }
 
-  /* --- Sticky bar --- */
+  .flap-half.bottom {
+    clip-path: inset(50% 0 0 0);
+  }
+
+  /* --- 3D Tumbling Kinetic Keyframes --- */
+  .flap-half.falling {
+    transform-origin: 50% 50%; 
+    animation: flap-fall 0.16s cubic-bezier(0.26, 0, 0.6, 0.2) forwards;
+    z-index: 6;
+  }
+
+  .flap-half.rising {
+    transform-origin: 50% 50%;
+    transform: rotateX(90deg);
+    animation: flap-rise 0.16s cubic-bezier(0.2, 0.6, 0.35, 1) 0.08s forwards;
+    z-index: 7;
+  }
+
+  @keyframes flap-fall {
+    0% { transform: rotateX(0deg); }
+    100% { transform: rotateX(-90deg); }
+  }
+
+  @keyframes flap-rise {
+    0% { transform: rotateX(90deg); }
+    100% { transform: rotateX(0deg); }
+  }
+
+  /* --- Sticky bar layout overrides --- */
   .sticky-bar {
     position: fixed;
     top: 0; left: 0; right: 0;
     background: #ffffff;
     border-bottom: 1px solid #000;
-    padding: 12px 18px;
+    padding: 8px 18px; 
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
     transform: translateY(-110%);
     transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 100;
   }
   .sticky-bar.show { transform: translateY(0); }
-  .sticky-num { font-weight: 800; font-size: 1.5rem; letter-spacing: -0.02em; line-height: 1; }
-  .sticky-text { font-size: 0.72rem; font-weight: 500; line-height: 1.2; opacity: 0.7; max-width: 20ch; }
+  
+  .sticky-bar .odometer {
+    font-size: 1.1rem;
+  }
+  
+  .sticky-bar .d::before {
+    height: 1px;
+    background: #000000;
+    border: none;
+  }
+  
+  .sticky-text { 
+    font-size: 0.8rem; 
+    font-weight: 600; 
+    line-height: 1; 
+    opacity: 0.8; 
+    white-space: nowrap; 
+  }
 
-  /* --- Hero --- */
-  .hero {
-    min-height: 100vh;
-    min-height: 100dvh;
+  /* --- Structural Full-Page Snapping Blocks --- */
+  .page-section {
+    height: 100vh;
+    height: 100dvh;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 24px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always; 
     position: relative;
+    overflow: hidden;
   }
+
+  /* --- Hero Page --- */
   .hero-img {
     width: min(52vw, 230px);
     height: auto;
@@ -94,16 +191,15 @@
     margin-bottom: 26px;
   }
   .count {
-    font-weight: 800;
-    font-size: clamp(3.25rem, 19vw, 8rem);
+    font-size: clamp(2.6rem, 14vw, 6.8rem);
     line-height: 1;
-    letter-spacing: -0.03em;
   }
   .count-label {
-    margin-top: 22px;
+    margin-top: 32px;
     font-size: clamp(1.05rem, 4.8vw, 1.5rem);
     font-weight: 500;
     max-width: 22ch;
+    text-align: center;
   }
   .scroll-cue {
     position: absolute;
@@ -116,6 +212,7 @@
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
+    text-align: center;
     animation: bob 1.6s ease-in-out infinite;
   }
   .scroll-cue svg { width: 22px; height: 22px; }
@@ -124,16 +221,17 @@
     50% { transform: translateY(7px); opacity: 1; }
   }
 
-  /* --- Reveal copy --- */
-  .copy { padding-bottom: 40px; }
-  .line {
-    min-height: 68vh;
-    min-height: 68dvh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 26px;
+  /* --- Scroll-Activated Text Reveal Core Styles --- */
+  .page-section p, 
+  .slider-inner-wrapper, 
+  .session-block, 
+  .systemic-manifesto, 
+  .share-container {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
   }
+
   .line p {
     max-width: 18ch;
     font-size: clamp(1.7rem, 8vw, 2.4rem);
@@ -141,47 +239,187 @@
     line-height: 1.22;
     text-align: center;
     text-wrap: balance;
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
   }
   .line p.small { font-size: clamp(1.2rem, 5.4vw, 1.55rem); font-weight: 400; }
-  .line.visible p { opacity: 1; transform: translateY(0); }
-  .line.visible p.small { opacity: 0.75; }
 
-  /* --- Closing --- */
+  .page-section.visible p, 
+  .page-section.visible .slider-inner-wrapper, 
+  .page-section.visible .session-block, 
+  .page-section.visible .systemic-manifesto, 
+  .page-section.visible .share-container {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .page-section.visible p.small { opacity: 0.75; }
+
+  /* --- Interactive Slider Framework --- */
+  .slider-section {
+    background: #f9f9f9;
+    border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    padding: 40px 24px;
+  }
+  .slider-container {
+    width: 100%;
+    max-width: 32rem;
+    text-align: center;
+  }
+  .slider-title {
+    font-size: clamp(1.4rem, 5vw, 2.1rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 30px;
+    text-wrap: balance;
+  }
+  .slider-input-wrapper {
+    margin-bottom: 35px;
+    position: relative;
+  }
+  .tax-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: #dddddd;
+    outline: none;
+  }
+  .tax-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #141414;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+  .tax-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+  .slider-value {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-top: 10px;
+    display: block;
+  }
+  .metrics-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-align: left;
+  }
+  .metric-card {
+    background: #ffffff;
+    padding: 14px 20px;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .metric-output {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .metric-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    opacity: 0.6;
+  }
+
+  /* --- Closing Section (Snapping Overridden to Auto Fluid Flow) --- */
   .closing {
-    min-height: 88vh;
-    min-height: 88dvh;
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    scroll-snap-align: none; /* Stripped snap alignment to prevent page lock traps */
+    scroll-snap-stop: normal;
+    padding: 120px 24px 80px;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .session-block {
+    margin-bottom: 45px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    gap: 20px;
+  }
+  .session-label {
+    font-size: clamp(1.15rem, 4.2vw, 1.45rem);
+    font-weight: 700;
+    max-width: 26ch;
+    line-height: 1.3;
     text-align: center;
-    padding: 0 26px 60px;
   }
-  .closing .lead {
-    font-size: clamp(1.4rem, 6vw, 1.85rem);
+  .session-block .odometer {
+    font-size: 3.2rem; 
+  }
+
+  .systemic-manifesto {
+    max-width: 30rem;
+    margin: 0 auto;
+    font-size: clamp(1.1rem, 4vw, 1.35rem);
     font-weight: 600;
-    max-width: 20ch;
-    margin-bottom: 0.7em;
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    line-height: 1.55;
+    text-align: center;
+    text-wrap: balance;
+    transition-delay: 0.15s;
   }
-  .closing.visible .lead { opacity: 1; transform: translateY(0); }
-  .closing-count {
-    font-weight: 800;
-    font-size: clamp(2.75rem, 15vw, 5rem);
-    line-height: 1;
-    letter-spacing: -0.03em;
+  .systemic-manifesto span {
+    display: block;
+    margin-top: 1.25rem;
+    font-weight: 700;
   }
+
+  /* --- Enhanced Colored Share Interface --- */
+  .share-container {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 24rem;
+    justify-content: center;
+    transition-delay: 0.3s;
+  }
+  
+  .share-btn {
+    font-family: "Karla", sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: filter 0.2s ease, transform 0.1s ease;
+  }
+  
+  .btn-copy { background: #4f46e5; }
+  .btn-whatsapp { background: #25d366; }
+  .btn-bluesky { background: #0085ff; }
+
+  .share-btn:hover { filter: brightness(1.08); }
+  .share-btn:active { transform: scale(0.98); }
 
   .source {
     max-width: 34rem;
-    margin: 0 auto;
-    padding: 0 26px 80px;
-    font-size: 0.78rem;
+    margin: 80px auto 0;
+    font-size: 0.75rem;
     line-height: 1.5;
     opacity: 0.45;
     text-align: center;
@@ -191,11 +429,11 @@
 <body>
 
   <div class="sticky-bar" id="stickyBar">
-    <span class="sticky-num" id="stickyNum">0</span>
+    <div id="stickyNum">0</div> 
     <span class="sticky-text">deaths from hunger since Elon Musk became a trillionaire</span>
   </div>
 
-  <section class="hero">
+  <section class="page-section hero">
     <img class="hero-img" src="musk.png" alt="Elon Musk wearing a DOGE cap">
     <div class="count" id="heroCount">0</div>
     <div class="count-label">people have died from acute hunger since Elon Musk became the world&rsquo;s first trillionaire</div>
@@ -205,27 +443,63 @@
     </div>
   </section>
 
-  <section class="copy">
-    <div class="line"><p>In 2021, Elon Musk told the UN&rsquo;s World Food Programme that if they gave him a plan to solve world hunger for $6&nbsp;billion, he&rsquo;d pay.</p></div>
-    <div class="line"><p>So they gave him a plan.</p></div>
-    <div class="line"><p class="small">Fully costed. $0.43 a meal, 42&nbsp;million people, 43&nbsp;countries.</p></div>
-    <div class="line"><p>He never paid.</p></div>
-    <div class="line"><p>Since then he&rsquo;s made over $700&nbsp;billion and become the world&rsquo;s first trillionaire.</p></div>
-    <div class="line"><p>He could fund that plan 166 times over.</p></div>
-    <div class="line"><p>Instead he chooses not to.</p></div>
+  <section class="page-section line"><p>In 2021, Elon Musk told the UN&rsquo;s World Food Programme that if they gave him a plan to solve world hunger for $6&nbsp;billion, he&rsquo;d pay.</p></section>
+  <section class="page-section line"><p>So they gave him a plan.</p></section>
+  <section class="page-section line"><p class="small">Fully costed. $0.43 a meal, 42&nbsp;million people, 43&nbsp;countries.</p></section>
+  <section class="page-section line"><p>He never paid.</p></section>
+  <section class="page-section line"><p>Since then he&rsquo;s made over $700&nbsp;billion and become the world&rsquo;s first trillionaire.</p></section>
+  <section class="page-section line"><p>He could fund that plan 166 times over.</p></section>
+  <section class="page-section line"><p>Instead he chooses not to.</p></section>
+
+  <section class="page-section slider-section">
+    <div class="slider-container slider-inner-wrapper">
+      <h2 class="slider-title">What would happen if the world&rsquo;s richest 100 people paid a wealth tax?</h2>
+      <div class="slider-input-wrapper">
+        <input type="range" min="0" max="5" step="0.5" value="2" class="tax-slider" id="taxSlider">
+        <span class="slider-value" id="sliderValDisplay">2%</span>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-output" id="mealsOutput">0</div>
+          <div class="metric-label">annual school meals provided for children in need</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-output" id="aidOutput">0</div>
+          <div class="metric-label">people provided full emergency food security aid for an entire year</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-output" id="healthOutput">0</div>
+          <div class="metric-label">people protected with basic life-saving community healthcare access</div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section class="closing">
-    <div class="lead">And since he became a trillionaire on Friday 12th June 2026, this many people have died of hunger:</div>
-    <div class="closing-count" id="closeCount">0</div>
-  </section>
+  <section class="page-section closing">
+    <div class="session-block">
+      <div class="session-label">While you have been reading this page, this many additional people died from hunger:</div>
+      <div id="sessionCount">0</div>
+    </div>
 
-  <footer class="source">
-    Counter based on a conservative estimate of one death from acute hunger every four seconds, calculated by more than 200 NGOs (2022). Net worth figures: Bloomberg / WFP. Start: 09:30:01 ET, 12 June 2026, the opening of SpaceX trading on the Nasdaq.
-  </footer>
+    <div class="systemic-manifesto">
+      Eight men now own as much wealth as the bottom 50% of humanity. Last year, the collective wealth of billionaires surged by $2.5 trillion: enough to eradicate extreme poverty 26 times over.
+      <span>We simply cannot afford billionaires (let alone trillionaires).</span>
+    </div>
+
+    <div class="share-container">
+      <button class="share-btn btn-copy" id="copyBtn" onclick="copyLink()">copy link and share</button>
+      <button class="share-btn btn-whatsapp" onclick="sharePlatform('whatsapp')">share on whatsapp</button>
+      <button class="share-btn btn-bluesky" onclick="sharePlatform('bluesky')">share on bluesky</button>
+    </div>
+
+    <footer class="source">
+      Counter based on a conservative estimate of one death from acute hunger every four seconds, calculated by more than 200 NGOs (2022). Net worth figures: Bloomberg / WFP. Start: 09:30:01 ET, 12 June 2026, the opening of SpaceX trading on the Nasdaq. Tax model calculations are based on an estimated collective assets evaluation of $4.8T held by the top 100 global billionaires.
+    </footer>
+  </section>
 
   <script>
     var START = new Date('2026-06-12T09:30:01-04:00').getTime();
+    var SESSION_START = Date.now();
     var SECONDS_PER_DEATH = 4;
 
     function Odometer(el){
@@ -235,25 +509,27 @@
       this.slots = [];
       this.str = null;
     }
+    
     Odometer.prototype.build = function(str){
       this.el.textContent = '';
       this.slots = [];
       for (var i = 0; i < str.length; i++){
         var ch = str.charAt(i);
         if (ch >= '0' && ch <= '9'){
-          var d = document.createElement('span'); d.className = 'd';
-          var inner = document.createElement('span'); inner.className = 'd-inner'; inner.textContent = ch;
-          d.appendChild(inner);
+          var d = document.createElement('div'); d.className = 'd';
+          
+          var topHalf = document.createElement('div'); topHalf.className = 'flap-half top static'; topHalf.textContent = ch;
+          var bottomHalf = document.createElement('div'); bottomHalf.className = 'flap-half bottom static'; bottomHalf.textContent = ch;
+          
+          d.appendChild(topHalf);
+          d.appendChild(bottomHalf);
           this.el.appendChild(d);
           this.slots.push({ type: 'digit', el: d, value: ch });
-        } else {
-          var s = document.createElement('span'); s.className = 'sep'; s.textContent = ch;
-          this.el.appendChild(s);
-          this.slots.push({ type: 'sep', el: s, value: ch });
         }
       }
       this.str = str;
     };
+    
     Odometer.prototype.set = function(str){
       if (this.str === null || str.length !== this.str.length){ this.build(str); return; }
       for (var i = 0; i < str.length; i++){
@@ -261,46 +537,124 @@
         var slot = this.slots[i];
         if (slot.type === 'digit'){
           if (slot.value !== ch) this.roll(slot, ch);
-        } else if (slot.value !== ch){
-          slot.el.textContent = ch; slot.value = ch;
         }
       }
       this.str = str;
     };
+    
     Odometer.prototype.roll = function(slot, ch){
       var d = slot.el;
-      var oldInner = d.querySelector('.d-inner:not(.exiting)');
-      var newInner = document.createElement('span');
-      newInner.className = 'd-inner incoming';
-      newInner.textContent = ch;
-      d.appendChild(newInner);
-      void d.offsetHeight; // reflow
-      oldInner.classList.add('exiting');
-      oldInner.style.transform = 'translateY(-100%)';
-      oldInner.style.opacity = '0';
-      newInner.classList.remove('incoming');
-      (function(o){ setTimeout(function(){ if (o.parentNode) o.parentNode.removeChild(o); }, 520); })(oldInner);
+      var oldCh = slot.value;
+      
+      d.innerHTML = '';
+      
+      var bgTop = document.createElement('div'); bgTop.className = 'flap-half top static'; bgTop.textContent = ch;
+      var bgBottom = document.createElement('div'); bgBottom.className = 'flap-half bottom static'; bgBottom.textContent = oldCh;
+      
+      var falling = document.createElement('div'); falling.className = 'flap-half top falling'; falling.textContent = oldCh;
+      var rising = document.createElement('div'); rising.className = 'flap-half bottom rising'; rising.textContent = ch;
+      
+      d.appendChild(bgTop);
+      d.appendChild(bgBottom);
+      d.appendChild(falling);
+      d.appendChild(rising);
+      
+      setTimeout(function(){
+        d.innerHTML = '';
+        var finalTop = document.createElement('div'); finalTop.className = 'flap-half top static'; finalTop.textContent = ch;
+        var finalBottom = document.createElement('div'); finalBottom.className = 'flap-half bottom static'; finalBottom.textContent = ch;
+        d.appendChild(finalTop);
+        d.appendChild(finalBottom);
+      }, 350);
+      
       slot.value = ch;
     };
 
     var hero = new Odometer(document.getElementById('heroCount'));
     var sticky = new Odometer(document.getElementById('stickyNum'));
-    var close = new Odometer(document.getElementById('closeCount'));
+    var sessionCounter = new Odometer(document.getElementById('sessionCount'));
 
-    var last = -1;
-    function fmt(n){ return n.toLocaleString('en-GB'); }
-    function update(){
-      var elapsed = (Date.now() - START) / 1000;
-      var deaths = Math.max(0, Math.floor(elapsed / SECONDS_PER_DEATH));
-      if (deaths !== last){
-        var s = fmt(deaths);
-        hero.set(s); sticky.set(s); close.set(s);
-        last = deaths;
+    var lastGlobalDeaths = -1;
+    var lastSessionDeaths = -1;
+    function fmt(n){ return n.toString(); }
+    
+    function updateCounters(){
+      var now = Date.now();
+      
+      var globalElapsed = (now - START) / 1000;
+      var globalDeaths = Math.max(0, Math.floor(globalElapsed / SECONDS_PER_DEATH));
+      if (globalDeaths !== lastGlobalDeaths){
+        var s = fmt(globalDeaths);
+        hero.set(s); sticky.set(s);
+        lastGlobalDeaths = globalDeaths;
+      }
+
+      var sessionElapsed = (now - SESSION_START) / 1000;
+      var sessionDeaths = Math.max(0, Math.floor(sessionElapsed / SECONDS_PER_DEATH));
+      if (sessionDeaths !== lastSessionDeaths){
+        sessionCounter.set(fmt(sessionDeaths));
+        lastSessionDeaths = sessionDeaths;
       }
     }
-    update();
-    setInterval(update, 250);
+    updateCounters();
+    setInterval(updateCounters, 250);
 
+    /* --- Interactive Slider Math Calculations --- */
+    var slider = document.getElementById('taxSlider');
+    var sliderDisplay = document.getElementById('sliderValDisplay');
+    var mealsEl = document.getElementById('mealsOutput');
+    var aidEl = document.getElementById('aidOutput');
+    var healthEl = document.getElementById('healthOutput');
+
+    var BASE_WEALTH = 4800000000000; 
+
+    function updateSliderMetrics() {
+      var rate = parseFloat(slider.value);
+      sliderDisplay.textContent = rate === 0 ? "0%" : rate + "%";
+      
+      var revenue = BASE_WEALTH * (rate / 100);
+      
+      var mealsCount = Math.floor(revenue / 120);    
+      var aidCount = Math.floor(revenue / 185);      
+      var healthCount = Math.floor(revenue / 95);     
+      
+      mealsEl.textContent = mealsCount.toLocaleString('en-GB');
+      aidEl.textContent = aidCount.toLocaleString('en-GB');
+      healthEl.textContent = healthCount.toLocaleString('en-GB');
+    }
+    slider.addEventListener('input', updateSliderMetrics);
+    updateSliderMetrics();
+
+    /* --- Platform Share Dispatch Engine --- */
+    function sharePlatform(platform) {
+      var url = encodeURIComponent(window.location.href);
+      var text = encodeURIComponent("Eight men own as much wealth as the bottom 50% of humanity. Extreme wealth is a systemic crisis. Track the impact in real time:");
+      var shareUrl = '';
+      
+      if (platform === 'whatsapp') {
+        shareUrl = 'https://api.whatsapp.com/send?text=' + text + '%20' + url;
+      } else if (platform === 'bluesky') {
+        shareUrl = 'https://bsky.app/intent/compose?text=' + text + '%20' + url;
+      }
+      
+      if (shareUrl) {
+        window.open(shareUrl, '_blank', 'width=600,height=450');
+      }
+    }
+
+    function copyLink() {
+      var btn = document.getElementById('copyBtn');
+      navigator.clipboard.writeText(window.location.href).then(function() {
+        btn.textContent = "copied!";
+        setTimeout(function() {
+          btn.textContent = "copy link and share";
+        }, 2000);
+      }).catch(function() {
+        btn.textContent = "failed to copy";
+      });
+    }
+
+    /* --- Intersection Observers for Scroll Snap Transitions --- */
     var bar = document.getElementById('stickyBar');
     new IntersectionObserver(function(entries){
       entries.forEach(function(e){
@@ -310,9 +664,30 @@
     }, { threshold: 0, rootMargin: '-60px 0px 0px 0px' }).observe(document.querySelector('.hero'));
 
     var revealObserver = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.55 });
-    document.querySelectorAll('.line, .closing').forEach(function(el){ revealObserver.observe(el); });
+      entries.forEach(function(e){ 
+        if (e.isIntersecting) e.target.classList.add('visible'); 
+      });
+    }, { threshold: 0.5 });
+    
+    document.querySelectorAll('.page-section').forEach(function(el){ revealObserver.observe(el); });
+
+    /* --- Dynamic Snapping Lock Release Monitor --- */
+    var closingSection = document.querySelector('.closing');
+    var snapReleaseObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        // Disables browser snapping immediately when the closing panel breaches visibility barriers
+        if (entry.isIntersecting) {
+          document.documentElement.style.scrollSnapType = 'none';
+        } else {
+          // Re-engages snapping blocks only when scrolling back above the footer threshold
+          if (window.scrollY < closingSection.offsetTop) {
+            document.documentElement.style.scrollSnapType = 'y mandatory';
+          }
+        }
+      });
+    }, { threshold: 0.05 }); // Triggers near the immediate entry point boundary
+    
+    snapReleaseObserver.observe(closingSection);
   </script>
 
 </body>
