@@ -53,6 +53,7 @@
     border-radius: 0.05em;
     perspective: 400px; 
     overflow: hidden;
+    transform: translateZ(0); /* GPU Layer Promotion: Fixes sharp square bleed bug */
   }
 
   /* Precision Central Mechanical Hinge Seam Line */
@@ -239,17 +240,23 @@
   .share-container,
   .footer-anchor {
     opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateY(16px); /* Compressed path for faster, punchier transitions */
+    transition: opacity 0.45s cubic-bezier(0.215, 0.610, 0.355, 1), transform 0.45s cubic-bezier(0.215, 0.610, 0.355, 1);
   }
 
   .line p {
-    max-width: 22ch; 
+    max-width: 24ch; 
     font-size: clamp(1.7rem, 8vw, 2.4rem);
     font-weight: 700;
-    line-height: 1.22;
+    line-height: 1.25;
     text-align: center;
     text-wrap: balance;
+  }
+
+  /* Focus Highlight Engine for Narratives */
+  .txt-highlight {
+    color: #4f46e5;
+    font-weight: 800;
   }
 
   .page-section.visible p, 
@@ -268,32 +275,30 @@
     background: #f9f9f9;
     border-top: 1px solid #eaeaea;
     border-bottom: 1px solid #eaeaea;
-    padding: 60px 24px 100px; /* Enhanced vertical padding for safety zone */
-    height: auto !important; /* Defends against strict viewport squishing */
-    min-height: 100vh;
-    min-height: 100dvh;
-    overflow: visible !important;
+    padding: 24px 16px 64px;
+    height: 100vh;
+    height: 100dvh;
   }
   .slider-container {
     width: 100%;
-    max-width: 32rem;
+    max-width: 36rem;
     text-align: center;
   }
   .slider-title {
-    font-size: clamp(1.4rem, 5vw, 2.1rem);
+    font-size: clamp(1.25rem, 4.5vw, 1.85rem);
     font-weight: 700;
     letter-spacing: -0.02em;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     text-wrap: balance;
   }
   .slider-instruction {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     font-weight: 500;
     opacity: 0.5;
-    margin-bottom: 35px;
+    margin-bottom: 20px;
   }
   .slider-input-wrapper {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -303,10 +308,10 @@
     display: flex;
     align-items: center;
     width: 100%;
-    gap: 14px;
+    gap: 12px;
   }
   .slider-bound {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 800;
     opacity: 0.35;
     font-family: Arial, Helvetica, sans-serif;
@@ -335,10 +340,10 @@
   }
   
   .slider-statement {
-    font-size: clamp(1.15rem, 4.5vw, 1.55rem);
+    font-size: clamp(1.05rem, 4vw, 1.35rem);
     font-weight: 700;
     color: #141414;
-    margin-top: 22px;
+    margin-top: 14px;
     display: block;
     text-wrap: balance;
   }
@@ -347,31 +352,39 @@
     font-weight: 800;
   }
   
+  /* Compact Horizontal Matrix Row */
   .metrics-grid {
     display: flex;
-    flex-direction: column;
-    gap: 16px;
-    text-align: left;
+    flex-direction: row !important;
+    gap: 8px;
+    text-align: center;
+    width: 100%;
+    margin-top: 24px;
   }
   .metric-card {
     background: #ffffff;
-    padding: 14px 20px;
+    padding: 12px 6px;
     border: 1px solid #e2e2e2;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
   }
   .metric-output {
-    font-size: 1.6rem;
+    font-size: clamp(0.85rem, 3vw, 1.35rem);
     font-weight: 800;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     font-variant-numeric: tabular-nums;
+    line-height: 1.1;
   }
   .metric-label {
-    font-size: 0.85rem;
-    font-weight: 500;
-    opacity: 0.6;
+    font-size: clamp(0.65rem, 2vw, 0.8rem);
+    font-weight: 600;
+    opacity: 0.55;
+    line-height: 1.2;
+    text-transform: lowercase;
   }
 
   /* --- Slider Scroll Cue Styles --- */
@@ -385,13 +398,6 @@
   /* Fade in the cue only when the slider section becomes visible */
   .page-section.visible .slider-cue {
     opacity: 0.65;
-  }
-
-  /* Responsive safety valve: completely clean block rendering for exceptionally small screens */
-  @media (max-height: 740px) {
-    .slider-section {
-      padding-bottom: 120px;
-    }
   }
 
   /* --- Closing Section (Snapping Overridden to Fluid Flow) --- */
@@ -432,7 +438,7 @@
     line-height: 1.6;
     text-align: center;
     text-wrap: balance;
-    transition-delay: 0.15s;
+    transition-delay: 0.05s; /* Snappier cascade timings */
   }
 
   .share-lead {
@@ -441,7 +447,7 @@
     margin-top: 50px;
     color: #141414;
     text-align: center;
-    transition-delay: 0.25s;
+    transition-delay: 0.1s;
   }
 
   /* --- Share Interface Layout --- */
@@ -453,7 +459,7 @@
     width: 100%;
     max-width: 24rem;
     justify-content: center;
-    transition-delay: 0.35s;
+    transition-delay: 0.15s;
   }
   
   .share-btn {
@@ -492,7 +498,7 @@
     border-top: 1px solid #eaeaea;
     padding-top: 40px;
     text-align: center;
-    transition-delay: 0.45s;
+    transition-delay: 0.2s;
   }
 
   .project-credit {
@@ -529,13 +535,14 @@
     </div>
   </section>
 
-  <section class="page-section line"><p>In 2021, Elon Musk told the UN&rsquo;s World Food Programme that if they gave him a plan to solve world hunger for $6&nbsp;billion, he&rsquo;d pay.</p></section>
+  <!-- Content layers updated with editorial highlights targeting critical terms -->
+  <section class="page-section line"><p>In 2021, Elon Musk told the UN&rsquo;s World Food Programme that if they gave him a plan to solve world hunger for <span class="txt-highlight">$6&nbsp;billion</span>, he&rsquo;d pay.</p></section>
   <section class="page-section line"><p>So they gave him a plan.</p></section>
-  <section class="page-section line"><p>Fully costed. $0.43 a meal, 42 million people, 43 countries.</p></section>
-  <section class="page-section line"><p>He never paid.</p></section>
-  <section class="page-section line"><p>Since then he&rsquo;s made over $700&nbsp;billion and become the world&rsquo;s first trillionaire.</p></section>
-  <section class="page-section line"><p>He could fund that plan 166 times over.</p></section>
-  <section class="page-section line"><p>Instead he chooses not to.</p></section>
+  <section class="page-section line"><p>Fully costed. <span class="txt-highlight">$0.43 a meal</span>, 42 million people, 43 countries.</p></section>
+  <section class="page-section line"><p class="txt-highlight">He never paid.</p></section>
+  <section class="page-section line"><p>Since then he&rsquo;s made over $700&nbsp;billion and become the world&rsquo;s <span class="txt-highlight">first trillionaire</span>.</p></section>
+  <section class="page-section line"><p>He could fund that plan <span class="txt-highlight">166 times over</span>.</p></section>
+  <section class="page-section line"><p>Instead he <span class="txt-highlight">chooses not to</span>.</p></section>
 
   <section class="page-section slider-section">
     <div class="slider-container slider-inner-wrapper">
@@ -554,20 +561,19 @@
       <div class="metrics-grid">
         <div class="metric-card">
           <div class="metric-output" id="mealsOutput">0</div>
-          <div class="metric-label">annual school meals provided for children in need</div>
+          <div class="metric-label">annual school meals for kids in need</div>
         </div>
         <div class="metric-card">
           <div class="metric-output" id="aidOutput">0</div>
-          <div class="metric-label">people provided full emergency food security aid for an entire year</div>
+          <div class="metric-label">people given full annual food aid</div>
         </div>
         <div class="metric-card">
           <div class="metric-output" id="healthOutput">0</div>
-          <div class="metric-label">people protected with basic life-saving community healthcare access</div>
+          <div class="metric-label">people given lifesaving healthcare</div>
         </div>
       </div>
     </div>
 
-    <!-- Keep Scrolling hint added to guide users to the closing dashboard -->
     <div class="scroll-cue slider-cue">
       <span>Keep Scrolling</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -593,7 +599,6 @@
       <button class="share-btn btn-instagram" id="instagramBtn" onclick="sharePlatform('instagram')">share on instagram</button>
     </div>
 
-    <!-- Clear, highly visible project footprint integrated explicitly right into the sub-footer context -->
     <div class="footer-anchor">
       <span class="project-credit">A project from Everyone Hates Elon</span>
       <footer class="source">
@@ -795,7 +800,7 @@
           }
         }
       });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.12 }); /* Lowered threshold drastically ensures fluid sections trigger animations instantly on entry */
     
     document.querySelectorAll('.page-section').forEach(function(el){ revealObserver.observe(el); });
   </script>
